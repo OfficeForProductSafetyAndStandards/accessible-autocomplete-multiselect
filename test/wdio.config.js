@@ -24,7 +24,7 @@ const capabilitiesLocal = [
   {
     browserName: 'chrome',
     'goog:chromeOptions': {
-      args: ['--headless=new'],
+      args: ['--headless=new', '--no-sandbox'],
       binary: puppeteer.executablePath()
     }
   }

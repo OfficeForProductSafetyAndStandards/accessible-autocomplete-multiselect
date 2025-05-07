@@ -4,11 +4,16 @@
 
 .autocomplete__hint,
 .autocomplete__input {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   appearance: none;
   border: 2px solid #0b0c0c;
   border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
   box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 400;
   margin-bottom: 0; /* BUG: Safari 10 on macOS seems to add an implicit margin. */
+  padding: 5px;
   line-height: 1.25;
   height: 2.5rem;
   width: 100%;
@@ -28,7 +33,8 @@
   padding: 5px;
 }
 
-.autocomplete__input--focused {
+.autocomplete__input--focused,
+.autocomplete__input:focus {
   outline: 3px solid #fd0;
   outline-offset: 0;
   box-shadow: inset 0 0 0 2px;
@@ -164,4 +170,47 @@
     font-size: 1.1875rem;
     line-height: 1.3157894737;
   }
+}
+
+.autocomplete__list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+
+.autocomplete__list .autocomplete__selected-option,
+.autocomplete__list .autocomplete__selected-option:hover {
+  cursor: inherit;
+  color: #0b0c0c;
+  margin: 5px 0;
+}
+
+.autocomplete__list .autocomplete__remove-option {
+  cursor: pointer;
+  color: #005ea5;
+  text-decoration: underline;
+  background: transparent;
+  border: none;
+  font-size: inherit;
+  margin-left: 5px;
+}
+
+.autocomplete__list .autocomplete__remove-option:hover{
+  color: #2b8cc4;
+}
+
+.autocomplete__list .autocomplete__remove-option:focus{
+  color: #0b0c0c;
+  outline: 3px solid #ffbf47;
+  outline-offset: 0;
+  background-color: #ffbf47;
+}
+
+.autocomplete__list .autocomplete__remove-option:before {
+  content: '× ';
+  color: inherit;
+}
+
+.autocomplete__list-item-description {
+  display: none;
 }

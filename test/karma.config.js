@@ -14,7 +14,14 @@ module.exports = function (config) {
     frameworks: ['mocha', 'webpack'],
     reporters: ['mocha'],
 
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessWithoutSandbox'],
+
+    customLaunchers: {
+      ChromeHeadlessWithoutSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
 
     files: [
       'test/functional/**/*.js'

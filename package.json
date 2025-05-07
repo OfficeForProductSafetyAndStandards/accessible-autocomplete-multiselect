@@ -1,11 +1,14 @@
 {
-  "name": "accessible-autocomplete",
+  "name": "@OfficeForProductSafetyAndStandards/accessible-autocomplete-multiselect",
   "version": "3.0.1",
   "main": "dist/accessible-autocomplete.min.js",
   "style": "dist/accessible-autocomplete.min.css",
   "description": "An autocomplete component, built to be accessible.",
-  "repository": "alphagov/accessible-autocomplete",
-  "author": "Government Digital Service (https://www.gov.uk/government/organisations/government-digital-service)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OfficeForProductSafetyAndStandards/accessible-autocomplete-multiselect.git"
+  },
+  "author": "Government Digital Service (https://www.gov.uk/government/organisations/government-digital-service) and Office for Product Safety & Standards (https://www.gov.uk/government/organisations/office-for-product-safety-and-standards)",
   "license": "MIT",
   "keywords": [
     "a11y",
@@ -89,5 +92,8 @@
       "dist"
     ],
     "parser": "@babel/eslint-parser"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

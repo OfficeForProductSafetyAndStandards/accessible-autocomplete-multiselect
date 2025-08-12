@@ -1,5 +1,5 @@
 {
-  "name": "@OfficeForProductSafetyAndStandards/accessible-autocomplete-multiselect",
+  "name": "@officeforproductsafetyandstandards/accessible-autocomplete-multiselect",
   "version": "3.0.5",
   "main": "dist/accessible-autocomplete.min.js",
   "style": "dist/accessible-autocomplete.min.css",
@@ -95,5 +95,9 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "overrides": {
+    "tar-fs": "^3.0.9",
+    "ws": "^8.17.1"
   }
 }

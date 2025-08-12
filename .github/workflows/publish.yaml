@@ -90,8 +90,10 @@ jobs:
           git commit -m "chore(release): bump version to $version"
           git tag "v$version"
           
-      - name: Push changes back to GitHub
-        run: git push --follow-tags
+      - name: Synchronize with remote and push changes
+        run: |
+          git pull --rebase origin main
+          git push --follow-tags
 
       - name: Publish to GitHub Packages
         run: npm publish

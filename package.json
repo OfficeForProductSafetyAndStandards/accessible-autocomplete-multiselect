@@ -77,7 +77,7 @@
     "webdriverio": "^8.28.6",
     "webpack": "^5.90.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.1"
+    "webpack-dev-server": "^5.2.1"
   },
   "peerDependencies": {
     "preact": "^8.0.0"

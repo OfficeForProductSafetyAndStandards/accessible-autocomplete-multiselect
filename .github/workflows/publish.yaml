@@ -1,30 +1,69 @@
-name: Publish
+name: Create and Publish Release
 
 on:
   push:
     branches:
       - main
-
   workflow_dispatch:
 
 concurrency:
-  group: publish-${{ github.head_ref || github.run_id }}
+  group: publish-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  publish:
-    name: Publish to GitHub Packages
+  check_if_version_exists:
+    name: Check if package version exists
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: read
+    outputs:
+      should_publish: ${{ steps.check.outputs.should_publish }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Check for existing package version
+        id: check
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          
+          if npm view "${PACKAGE_NAME}@${VERSION}" version --json; then
+            echo "Version ${VERSION} of ${PACKAGE_NAME} already exists. No need to publish."
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version ${VERSION} of ${PACKAGE_NAME} does not exist. Proceeding with publish."
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  publish:
+    name: Build, Commit, and Publish
+    runs-on: ubuntu-latest
+    needs: check_if_version_exists
+    if: needs.check_if_version_exists.outputs.should_publish == 'true'
+
+    permissions:
+      contents: write
       packages: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0 
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4
         with:
           cache: npm
           node-version-file: .nvmrc
@@ -33,7 +72,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Publish
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        run: npm version patch --no-git-tag-version
+      
+      - name: Build project
+        run: npm run build
+
+      - name: Commit and Tag changes
+        run: |
+          git add .
+          version=$(node -p "require('./package.json').version")
+          git commit -m "chore(release): bump version to $version"
+          git tag "v$version"
+          
+      - name: Synchronize with remote and push changes
+        run: |
+          git pull --rebase origin main
+          git push --follow-tags
+
+      - name: Publish to GitHub Packages
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -24,7 +24,7 @@ const capabilitiesLocal = [
   {
     browserName: 'chrome',
     'goog:chromeOptions': {
-      args: ['--headless=new', '--no-sandbox'],
+      args: ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage'],
       binary: puppeteer.executablePath()
     }
   }
@@ -68,13 +68,14 @@ const capabilitiesSauce = [
  * @type {Testrunner}
  */
 exports.config = {
-  user: SAUCE_USERNAME,
-  key: SAUCE_ACCESS_KEY,
+  // Only set user/key when Sauce Labs is enabled
+  ...(SAUCE_ENABLED === 'true' && {
+    user: SAUCE_USERNAME,
+    key: SAUCE_ACCESS_KEY
+  }),
 
-  // Use DevTools prototype for Puppeteer
-  automationProtocol: SAUCE_ENABLED === 'true'
-    ? 'webdriver'
-    : 'devtools',
+  // Always use WebDriver protocol - more stable and compatible
+  automationProtocol: 'webdriver',
 
   baseUrl: `http://localhost:${PORT}`,
 
@@ -100,15 +101,19 @@ exports.config = {
       port: PORT
     }],
 
-    /**
-     * Browser testing options
-     *
-     * @type {[string, SauceServiceConfig]}
-     */
-    ['sauce', {
-      // Optionally connect to Sauce Labs
-      sauceConnect: SAUCE_ENABLED === 'true'
-    }]
+    // Only include sauce service when enabled
+    ...(SAUCE_ENABLED === 'true'
+      ? [
+          /**
+           * Browser testing options
+           *
+           * @type {[string, SauceServiceConfig]}
+           */
+          ['sauce', {
+            sauceConnect: true
+          }]
+        ]
+      : [])
   ],
 
   specs: [join(cwd(), 'test/integration/**/*.js')],

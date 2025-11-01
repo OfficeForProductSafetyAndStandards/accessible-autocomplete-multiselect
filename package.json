@@ -70,7 +70,7 @@
     "postcss": "^8.4.35",
     "postcss-loader": "^8.2.0",
     "preact": "^8.5.3",
-    "puppeteer": "^24.25.0",
+    "puppeteer": "^24.27.0",
     "source-map-loader": "^5.0.0",
     "standard": "^17.1.2",
     "terser-webpack-plugin": "^5.3.9",

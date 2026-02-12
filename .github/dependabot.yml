@@ -6,7 +6,6 @@ updates:
     directory: /
     open-pull-requests-limit: 10
 
-    # Group packages into shared PR
     groups:
       build:
         patterns:
@@ -48,7 +47,6 @@ updates:
     reviewers:
       - alphagov/design-system-developers
 
-    # Schedule run on 1st of every month, local time
     schedule:
       interval: monthly
       time: '10:30'
@@ -57,20 +55,18 @@ updates:
     versioning-strategy: increase
 
     allow:
-      # Include direct package.json updates
       - dependency-type: direct
-
-      # Include indirect browser data updates
-      # https://caniuse.com
       - dependency-name: caniuse-lite
+
+    ignore:
+      - dependency-name: "glob"
+        dependency-type: "indirect"
 
   # Update GitHub Actions
   - package-ecosystem: github-actions
     directory: /
     reviewers:
       - alphagov/design-system-developers
-
-    # Schedule run on 1st of every month, local time
     schedule:
       interval: monthly
       time: '10:30'

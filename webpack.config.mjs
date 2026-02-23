@@ -5,10 +5,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import webpack from 'webpack'
 
-const {
-  NODE_ENV = 'development',
-  PORT = 8080
-} = process.env
+const { NODE_ENV = 'development', PORT = 8080 } = process.env
 
 /**
  * Base webpack build mode
@@ -26,9 +23,16 @@ const config = {
   bail: mode === 'production',
   context: join(cwd(), 'src'),
 
-  devtool: mode === 'development'
-    ? 'inline-source-map'
-    : 'source-map',
+  resolve: {
+    alias: {
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime'
+    }
+  },
+
+  devtool: mode === 'development' ? 'inline-source-map' : 'source-map',
 
   externalsType: 'umd',
   mode,
@@ -37,11 +41,7 @@ const config = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader'
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
       },
       {
         test: /\.js$/,
@@ -71,20 +71,22 @@ const config = {
   optimization: {
     emitOnErrors: mode === 'production',
     minimize: mode === 'production',
-    minimizer: [new TerserPlugin({
-      extractComments: true,
-      terserOptions: {
-        format: { comments: false },
+    minimizer: [
+      new TerserPlugin({
+        extractComments: true,
+        terserOptions: {
+          format: { comments: false },
 
-        // Include sources content from dependency source maps
-        sourceMap: {
-          includeSources: true
-        },
+          // Include sources content from dependency source maps
+          sourceMap: {
+            includeSources: true
+          },
 
-        // Compatibility workarounds
-        safari10: true
-      }
-    })]
+          // Compatibility workarounds
+          safari10: true
+        }
+      })
+    ]
   },
 
   output: {
@@ -233,11 +235,7 @@ const bundleReact = {
 /**
  * Multiple webpack config export
  */
-export default [
-  bundleStandalone,
-  bundlePreact,
-  bundleReact
-]
+export default [bundleStandalone, bundlePreact, bundleReact]
 
 /**
  * @typedef {import('webpack-dev-server').WebpackConfiguration} WebpackConfiguration

@@ -14,7 +14,9 @@ describe('DropdownArrowDown', () => {
     })
 
     beforeEach(() => {
-      scratch.innerHTML = ''
+      // Preact 10: use render(null) instead of innerHTML = '' to properly
+      // unmount components and reset Preact's internal VDOM state
+      render(null, scratch)
     })
 
     after(() => {
@@ -32,14 +34,19 @@ describe('DropdownArrowDown', () => {
       it('renders with a given custom class', () => {
         render(<DropdownArrowDown className='foo' />, scratch)
 
-        expect(scratch.innerHTML).to.contain('class="foo"')
+        // Preact 10: query the element directly rather than checking innerHTML
+        // as attribute serialisation order is not guaranteed
+        const svg = scratch.querySelector('svg')
+        expect(svg.getAttribute('class')).to.equal('foo')
       })
 
       // IE issue so the dropdown svg is not focusable (tabindex won't work for this)
       it('renders an svg where focusable attribute is false', () => {
         render(<DropdownArrowDown />, scratch)
 
-        expect(scratch.innerHTML).to.contain('focusable="false"')
+        // Preact 10: query the element directly rather than checking innerHTML
+        const svg = scratch.querySelector('svg')
+        expect(svg.getAttribute('focusable')).to.equal('false')
       })
     })
   })

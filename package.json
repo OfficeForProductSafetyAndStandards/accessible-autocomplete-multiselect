@@ -1,6 +1,6 @@
 {
   "name": "@officeforproductsafetyandstandards/accessible-autocomplete-multiselect",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "main": "dist/accessible-autocomplete.min.js",
   "style": "dist/accessible-autocomplete.min.css",
   "description": "An autocomplete component, built to be accessible.",

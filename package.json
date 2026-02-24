@@ -97,6 +97,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "overrides": {
+    "qs": "6.14.2",
     "tar-fs": "^3.0.9",
     "ws": "^8.17.1"
   }

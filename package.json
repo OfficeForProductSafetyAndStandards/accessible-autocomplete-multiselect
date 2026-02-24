@@ -1,6 +1,6 @@
 {
   "name": "@officeforproductsafetyandstandards/accessible-autocomplete-multiselect",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "main": "dist/accessible-autocomplete.min.js",
   "style": "dist/accessible-autocomplete.min.css",
   "description": "An autocomplete component, built to be accessible.",
@@ -8,16 +8,12 @@
     "type": "git",
     "url": "https://github.com/OfficeForProductSafetyAndStandards/accessible-autocomplete-multiselect.git"
   },
-  "author": "Government Digital Service (https://www.gov.uk/government/organisations/government-digital-service) and Office for Product Safety & Standards (https://www.gov.uk/government/organisations/office-for-product-safety-and-standards)",
+  "author": "Government Digital Service and Office for Product Safety & Standards",
   "license": "MIT",
-  "keywords": [
-    "a11y",
-    "accessibility",
-    "autocomplete",
-    "component",
-    "plugin",
-    "typeahead",
-    "widget"
+  "files": [
+    "dist",
+    "src",
+    "lib"
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress",
@@ -26,11 +22,15 @@
     "karma": "npm run karma:dev -- --single-run",
     "prepare": "node -e \"try { (await import('husky')).default() } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e }\" --input-type module",
     "preversion": "npm test",
+    "version": "npm run build && git add -f dist",
+    "postversion": "git push && git push --tags",
     "standard": "standard",
     "pretest": "npm run build",
     "test": "run-p standard karma wdio",
-    "version": "git add -A dist",
     "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -92,9 +92,6 @@
       "dist"
     ],
     "parser": "@babel/eslint-parser"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "overrides": {
     "qs": "6.14.2",

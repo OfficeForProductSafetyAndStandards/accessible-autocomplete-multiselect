@@ -57,8 +57,9 @@ const basicExample = () => {
         // We can't tell which region will be used first, so we have to
         // await all region status text for at least one non-empty value
         const waitForText = ($elements) => async () =>
-          Promise.all($elements.map(($element) => $element.getText()))
-            .then((values) => values.some(Boolean))
+          Promise.all($elements.map(($element) => $element.getText())).then(
+            (values) => values.some(Boolean)
+          )
 
         await browser.waitUntil(
           waitForText([$regionA, $regionB]),
@@ -141,7 +142,9 @@ const basicExample = () => {
         await $input.click()
         await $input.setValue('ita')
         await browser.keys([Key.ArrowDown, Key.Enter])
-        await browser.waitUntil(async () => await $input.getValue() !== 'ita')
+        await browser.waitUntil(
+          async () => (await $input.getValue()) !== 'ita'
+        )
         expect(await $input.isFocused()).toEqual(true)
         expect(await $input.getValue()).toEqual('Italy')
       })
@@ -156,8 +159,17 @@ const basicExample = () => {
           await browser.keys([Key.ArrowDown])
           expect(await $input.isFocused()).toEqual(false)
           expect(await $option1.isFocused()).toEqual(true)
+
+          // Type 'l' while the option is focused
           await $option1.addValue('l')
-          expect(await $input.isFocused()).toEqual(true)
+
+          // FIX: Add a waitUntil to allow the framework to redirect focus
+          await browser.waitUntil(async () => await $input.isFocused(), {
+            timeout: 5000,
+            timeoutMsg:
+              'Expected input to regain focus after keypress on option'
+          })
+
           expect(await $input.getValue()).toEqual('ital')
         } else {
           // FIXME: This feature does not work correctly on IE 11
@@ -174,7 +186,9 @@ const basicExample = () => {
         await $option1.click()
 
         // Wait for value to update after click
-        await browser.waitUntil(async () => await $input.getValue() !== 'ita')
+        await browser.waitUntil(
+          async () => (await $input.getValue()) !== 'ita'
+        )
 
         expect(await $input.isFocused()).toEqual(true)
         expect(await $input.getValue()).toEqual('Italy')
@@ -205,7 +219,9 @@ const customTemplatesExample = () => {
         const $menu = await $(`${input} + ul`)
         await $menu.waitForDisplayed({ timeout: 10000 })
 
-        const $option1InnerElement = await $(`${input} + ul li:nth-child(1) strong`)
+        const $option1InnerElement = await $(
+          `${input} + ul li:nth-child(1) strong`
+        )
 
         const exists = await $option1InnerElement.isExisting()
         if (!exists) {
@@ -230,7 +246,10 @@ const customTemplatesExample = () => {
           }
         }
 
-        await browser.waitUntil(async () => await $input.getValue() !== 'uni', { timeout: 5000 })
+        await browser.waitUntil(
+          async () => (await $input.getValue()) !== 'uni',
+          { timeout: 5000 }
+        )
 
         expect(await $input.isFocused()).toEqual(true)
         expect(await $input.getValue()).toEqual('United Kingdom')
@@ -273,7 +292,10 @@ const takeScreenshotsIfFail = () => {
       const timestamp = +new Date()
       const browserVariant = isIE ? `ie${browserVersion}` : browserName
       const testTitle = this.currentTest.title.replace(/\W/g, '-')
-      const filename = join(cwd(), `screenshots/${timestamp}-${browserVariant}-${testTitle}.png`)
+      const filename = join(
+        cwd(),
+        `screenshots/${timestamp}-${browserVariant}-${testTitle}.png`
+      )
       await mkdir(dirname(filename), { recursive: true })
       await browser.saveScreenshot(filename)
       console.log(`Test failed, created: ${filename}`)
@@ -287,7 +309,9 @@ describe('Accessible Autocomplete', () => {
   })
 
   it('should have the right title', async () => {
-    expect(await browser.getTitle()).toEqual('Accessible Autocomplete examples')
+    expect(await browser.getTitle()).toEqual(
+      'Accessible Autocomplete examples'
+    )
   })
 
   basicExample()
@@ -303,7 +327,9 @@ describe('Accessible Autocomplete Preact', () => {
   })
 
   it('should have the right title', async () => {
-    expect(await browser.getTitle()).toEqual('Accessible Autocomplete Preact examples')
+    expect(await browser.getTitle()).toEqual(
+      'Accessible Autocomplete Preact examples'
+    )
   })
 
   basicExample()
@@ -317,7 +343,9 @@ describe('Accessible Autocomplete React', () => {
   })
 
   it('should have the right title', async () => {
-    expect(await browser.getTitle()).toEqual('Accessible Autocomplete React examples')
+    expect(await browser.getTitle()).toEqual(
+      'Accessible Autocomplete React examples'
+    )
   })
 
   basicExample()

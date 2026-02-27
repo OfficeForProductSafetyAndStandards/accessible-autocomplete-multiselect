@@ -710,7 +710,8 @@ export default class Autocomplete extends Component {
                   this.elementReferences[index] = optionEl
                 }}
                 role='option'
-                tabIndex='-1'
+                tabIndex='-1' // React requires camelCase
+                tabindex='-1' // Preact 8 requires lowercase; does not normalise tabIndex on non-form elements
                 aria-posinset={index + 1}
                 aria-setsize={options.length}
               />

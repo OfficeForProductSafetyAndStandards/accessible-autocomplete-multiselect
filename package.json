@@ -45,7 +45,7 @@
     "@wdio/sauce-service": "^9.24.0",
     "@wdio/spec-reporter": "^9.24.0",
     "@wdio/static-server-service": "^9.24.0",
-    "autoprefixer": "^10.4.24",
+    "autoprefixer": "^10.4.27",
     "babel-loader": "^10.0.0",
     "babel-plugin-istanbul": "^7.0.1",
     "chai": "^6.2.2",
@@ -75,7 +75,7 @@
     "standard": "^17.1.2",
     "terser-webpack-plugin": "^5.3.16",
     "webdriverio": "^9.20.0",
-    "webpack": "^5.105.2",
+    "webpack": "^5.105.3",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.3"
   },

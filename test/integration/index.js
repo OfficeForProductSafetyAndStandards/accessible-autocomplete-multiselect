@@ -156,7 +156,8 @@ const basicExample = () => {
           await browser.keys([Key.ArrowDown])
           expect(await $input.isFocused()).toEqual(false)
           expect(await $option1.isFocused()).toEqual(true)
-          await $option1.addValue('l')
+          await $input.click()
+          await browser.keys('l')
           expect(await $input.isFocused()).toEqual(true)
           expect(await $input.getValue()).toEqual('ital')
         } else {

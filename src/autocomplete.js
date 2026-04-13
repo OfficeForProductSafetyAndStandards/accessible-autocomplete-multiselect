@@ -619,6 +619,10 @@ export default class Autocomplete extends Component {
 
     delete computedMenuAttributes.class
 
+    // Fix for Preact focus issue:
+    // Determine which attribute name to use based on the library environment
+    const tabIndexKey = IS_PREACT ? 'tabindex' : 'tabIndex'
+
     return (
       <div className={wrapperClassName} onKeyDown={this.handleKeyDown}>
         <Status
@@ -710,8 +714,8 @@ export default class Autocomplete extends Component {
                   this.elementReferences[index] = optionEl
                 }}
                 role='option'
-                tabIndex='-1' // React requires camelCase
-                tabindex='-1' // Preact 8 requires lowercase; does not normalise tabIndex on non-form elements
+                // Apply dynamic tabindex to avoid duplicate attribute issues in Preact
+                {...{ [tabIndexKey]: '-1' }}
                 aria-posinset={index + 1}
                 aria-setsize={options.length}
               />

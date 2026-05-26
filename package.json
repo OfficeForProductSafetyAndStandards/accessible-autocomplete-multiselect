@@ -32,6 +32,11 @@
     "version": "git add -A dist",
     "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
   },
+
+  "dependencies": {
+  "qs": ">=6.15.2"
+  },
+  
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/eslint-parser": "^7.28.6",

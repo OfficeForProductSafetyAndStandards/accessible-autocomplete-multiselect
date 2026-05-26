@@ -79,7 +79,8 @@
     "webdriverio": "^9.20.0",
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2",
-    "webpack-dev-server": "^5.2.4"
+    "webpack-dev-server": "^5.2.4",
+    "qs": "6.15.2"
   },
   "peerDependencies": {
     "preact": "^10.0.0"
@@ -99,7 +100,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "overrides": {
-    "qs": "6.14.2",
+    "qs": "6.15.2",
     "tar-fs": "^3.0.9",
     "ws": "^8.17.1",
     "serialize-javascript": "7.0.5"

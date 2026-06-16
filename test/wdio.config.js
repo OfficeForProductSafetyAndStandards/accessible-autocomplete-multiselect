@@ -24,8 +24,8 @@ const capabilitiesLocal = [
   {
     browserName: 'chrome',
     'goog:chromeOptions': {
-      args: ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage'],
-      binary: puppeteer.executablePath()
+      args: ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage']
+      // `binary` is set in onPrepare — puppeteer.executablePath() is async in v23+
     }
   }
 ]
@@ -87,12 +87,22 @@ exports.config = {
   outputDir: join(cwd(), 'logs'),
   reporters: ['spec'],
 
+  /**
+   * Resolve the Chrome binary path before workers start.
+   * puppeteer.executablePath() returns a Promise in Puppeteer v23+,
+   * and a Promise cannot be structured-cloned into the worker.
+   */
+  onPrepare: async function (config, capabilities) {
+    if (SAUCE_ENABLED === 'true') return
+    const executablePath = await puppeteer.executablePath()
+    for (const cap of capabilities) {
+      if (cap['goog:chromeOptions']) {
+        cap['goog:chromeOptions'].binary = executablePath
+      }
+    }
+  },
+
   services: [
-    /**
-     * Web server options
-     *
-     * @type {[string, StaticServerOptions]}
-     */
     ['static-server', {
       folders: [
         { mount: '/', path: join(cwd(), 'examples') },
@@ -101,14 +111,8 @@ exports.config = {
       port: PORT
     }],
 
-    // Only include sauce service when enabled
     ...(SAUCE_ENABLED === 'true'
       ? [
-          /**
-           * Browser testing options
-           *
-           * @type {[string, SauceServiceConfig]}
-           */
           ['sauce', {
             sauceConnect: true
           }]

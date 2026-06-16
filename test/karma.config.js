@@ -5,10 +5,11 @@ require('@babel/register')({
 const puppeteer = require('puppeteer')
 const webpackConfig = require('../webpack.config.mjs')
 
-// Use Chrome headless
-process.env.CHROME_BIN = puppeteer.executablePath()
+module.exports = async function (config) {
+  // Use Chrome headless
+  // puppeteer.executablePath() returns a Promise in v23+, so await it
+  process.env.CHROME_BIN = await puppeteer.executablePath()
 
-module.exports = function (config) {
   config.set({
     basePath: '../',
     frameworks: ['mocha', 'webpack'],

@@ -76,7 +76,7 @@
     "preact": "10.29.2",
     "puppeteer": "^25.1.0",
     "qs": "^6.15.2",
-    "serialize-javascript": "7.0.5",
+    "serialize-javascript": "7.0.7",
     "socksjs": "^0.5.0",
     "source-map-loader": "^5.0.0",
     "standard": "^17.1.2",
@@ -107,6 +107,6 @@
   "overrides": {
     "tar-fs": "^3.0.9",
     "ws": "^8.17.1",
-    "serialize-javascript": "7.0.5"
+    "serialize-javascript": "7.0.7"
   }
 }

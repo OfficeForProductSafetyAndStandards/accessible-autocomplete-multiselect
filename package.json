@@ -33,7 +33,7 @@
     "wdio": "cross-env NODE_ENV=test wdio test/wdio.config.js"
   },
   "dependencies": {
-    "qs": ">=6.15.2"
+    "qs": ">=6.15.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -75,7 +75,7 @@
     "postcss-loader": "^8.2.1",
     "preact": "10.29.2",
     "puppeteer": "^25.1.0",
-    "qs": "^6.15.2",
+    "qs": "^6.15.3",
     "serialize-javascript": "7.0.5",
     "socksjs": "^0.5.0",
     "source-map-loader": "^5.0.0",

@@ -1,5 +1,5 @@
 require('dotenv').config()
-require('@babel/register')({
+require('@babel/register').default({
   rootMode: 'upward'
 })
 

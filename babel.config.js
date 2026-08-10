@@ -3,6 +3,8 @@
  *
  * @type {import('@babel/core').ConfigFunction}
  */
+const isProduction = process.env.NODE_ENV === 'production'
+
 module.exports = {
   assumptions: {
     constantReexports: true,
@@ -26,16 +28,16 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        bugfixes: true,
-        corejs: '3.33',
-        shippedProposals: true,
-        useBuiltIns: 'usage'
+        shippedProposals: true
       }
     ]
   ],
 
   plugins: [
-    ['@babel/plugin-transform-react-jsx', { pragma: 'h' }]
+    ...(isProduction
+      ? [['babel-plugin-polyfill-corejs3', { method: 'usage-global', version: '3.33' }]]
+      : []),
+    ['@babel/plugin-transform-react-jsx', { runtime: 'classic', pragma: 'h' }]
   ],
 
   env: {

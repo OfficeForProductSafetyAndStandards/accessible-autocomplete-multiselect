@@ -84,7 +84,7 @@
     "source-map-loader": "^5.0.0",
     "standard": "^17.1.2",
     "terser-webpack-plugin": "^5.6.1",
-    "tsx": "^4.23.12",
+    "tsx": "^4.23.15",
     "uuid": "^14.0.2",
     "webdriverio": "^9.31.7",
     "webpack": "^5.111.1",

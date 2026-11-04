@@ -62,7 +62,7 @@
     "cssnano-preset-default": "^9.8.0",
     "devtools": "^8.42.0",
     "dotenv": "^18.0.9",
-    "fast-xml-parser": "^5.11.1",
+    "fast-xml-parser": "^5.11.2",
     "husky": "^9.1.7",
     "js-yaml": "^5.4.1",
     "karma": "^6.4.4",
